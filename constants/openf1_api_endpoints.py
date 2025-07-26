@@ -1,0 +1,1 @@
+SESSIONS_API_URL = "https://api.openf1.org/v1/sessions"
