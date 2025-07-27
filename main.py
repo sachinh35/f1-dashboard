@@ -23,7 +23,7 @@ def get_years() -> GetAvailableYearsResponse:
 def get_races_for_year(year: int) -> GetRacesForYearsResponse:
     try:
         races = race_session.get_races_by_year(year)
-        return GetRacesForYearsResponse(all_races=sorted(list(set(races))))
+        return GetRacesForYearsResponse(all_races=races)
     except Exception:
         raise HTTPException(status_code=500, detail="Failed to fetch races")
 

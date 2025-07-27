@@ -6,5 +6,11 @@ class GetAvailableYearsResponse(BaseModel):
     years_list: List[int]
 
 
+class RaceInfo(BaseModel):
+    session_key: int
+    location: str
+    session_name: str
+
+
 class GetRacesForYearsResponse(BaseModel):
-    all_races: List[str]
+    all_races: List[RaceInfo]
