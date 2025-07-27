@@ -21,3 +21,21 @@ docker build -t fastapi-backend .
 docker run -p 8000:8000 fastapi-backend
 ```
 
+# Example requests with cURL
+
+## GetRacesForYear
+To get races for year 2024. 
+```
+curl http://localhost:8000/races/2024
+```
+## GetYears
+
+```
+curl http://localhost:8000/years
+```
+
+## GetSessionTypes
+
+```
+curl https://localhost:8000/session-types
+```

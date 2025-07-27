@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from utils import race_session
 from api_pydantic_models.races import GetAvailableYearsResponse, GetRacesForYearsResponse
-from api_pydantic_models.race_sesssions import GetAllSessionTypesResponse, SessionType
+from api_pydantic_models.race_sesssions import GetAllSessionTypesResponse, SessionType, GetSessionResultsResponse
 
 app = FastAPI()
 
@@ -20,9 +20,9 @@ def get_years() -> GetAvailableYearsResponse:
 
 
 @app.get("/races/{year}")
-def get_races_for_year(year: int) -> GetRacesForYearsResponse:
+async def get_races_for_year(year: int) -> GetRacesForYearsResponse:
     try:
-        races = race_session.get_races_by_year(year)
+        races = await race_session.get_races_by_year(year)
         return GetRacesForYearsResponse(all_races=races)
     except Exception:
         raise HTTPException(status_code=500, detail="Failed to fetch races")
@@ -31,3 +31,15 @@ def get_races_for_year(year: int) -> GetRacesForYearsResponse:
 @app.get("/session-types")
 def get_session_types() -> GetAllSessionTypesResponse:
     return GetAllSessionTypesResponse(session_types=[SessionType.QUALIFYING, SessionType.RACE])
+
+
+@app.get("/session-results/{session_key}")
+async def get_session_results(session_key: int) -> GetSessionResultsResponse:
+    try:
+        print("session_key: {}".format(session_key))
+        results = await race_session.get_results_by_session_key(session_key=session_key)
+        print("results: {}".format(results))
+        return GetSessionResultsResponse(results=results)
+    except Exception as e:
+        print(e)
+        raise e
